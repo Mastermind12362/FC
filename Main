@@ -213,7 +213,6 @@ function Library:CreateWindow(Config: {Name: string})
 	MainFrame.Position = UDim2.new(0.5, -325, 0.5, -210)
 	MainFrame.BackgroundColor3 = THEME.Main
 	MainFrame.ClipsDescendants = true
-	MainFrame.BackgroundTransparency = 0.8
 	MainFrame.Visible = false
 	MainFrame.Parent = ScreenGui
 	
