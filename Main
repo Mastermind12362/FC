@@ -185,6 +185,7 @@ function Library:CreateWindow(Config: {Name: string})
 	local ScreenGui = Instance.new("ScreenGui")
 	ScreenGui.Name = "TitanUI"
 	ScreenGui.ResetOnSpawn = false
+	ScreenGui.BackgroundTransparency = 0.8
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	ScreenGui.DisplayOrder = 100
 	
