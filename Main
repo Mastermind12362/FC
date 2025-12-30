@@ -185,7 +185,6 @@ function Library:CreateWindow(Config: {Name: string})
 	local ScreenGui = Instance.new("ScreenGui")
 	ScreenGui.Name = "TitanUI"
 	ScreenGui.ResetOnSpawn = false
-	ScreenGui.BackgroundTransparency = 0.8
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	ScreenGui.DisplayOrder = 100
 	
@@ -214,6 +213,7 @@ function Library:CreateWindow(Config: {Name: string})
 	MainFrame.Position = UDim2.new(0.5, -325, 0.5, -210)
 	MainFrame.BackgroundColor3 = THEME.Main
 	MainFrame.ClipsDescendants = true
+	MainFrame.BackgroundTransparency = 0.8
 	MainFrame.Visible = false
 	MainFrame.Parent = ScreenGui
 	
