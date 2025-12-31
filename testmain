@@ -115,7 +115,7 @@ function Library:PlayIntro(MainFrame: Frame)
 	MainFrame.Size = UDim2.new(0, 0, 0, 0)
 	MainFrame.BackgroundTransparency = 1
 	-- UPDATED: Tween to 0.9 transparency instead of 0
-	Utility:Tween(MainFrame, {Size = UDim2.new(0, 650, 0, 420), BackgroundTransparency = 0.9}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+	Utility:Tween(MainFrame, {Size = UDim2.new(0, 650, 0, 420), BackgroundTransparency = 0.1}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 	task.wait(0.5)
 	IntroFrame:Destroy()
 end
