@@ -1,5 +1,5 @@
 --!strict
--- TITAN ENGINE v9 (Modern Glass Edition)
+-- TITAN ENGINE v9 (Module Version)
 -- Save this to Pastebin!
 
 local TweenService = game:GetService("TweenService")
@@ -23,17 +23,17 @@ else
 	end)
 end
 
---// THEME (MODERN GLASS) //--
+--// THEME //--
 local THEME = {
-	Main = Color3.fromRGB(10, 10, 10),       -- Deep Black/Gray
-	Sidebar = Color3.fromRGB(0, 0, 0),       -- Pure Black
-	Section = Color3.fromRGB(0, 0, 0),       -- Transparent Black
-	Element = Color3.fromRGB(0, 0, 0),       -- Glassy Element Background
-	Hover = Color3.fromRGB(255, 255, 255),   -- White overlay for hover
-	Text = Color3.fromRGB(255, 255, 255),    -- Pure White
-	TextDark = Color3.fromRGB(180, 180, 180),-- Light Gray
-	Accent = Color3.fromRGB(255, 60, 60),    -- Neon Red
-	Outline = Color3.fromRGB(60, 60, 60)     -- Subtle Grey Outline
+	Main = Color3.fromRGB(20, 20, 20),
+	Sidebar = Color3.fromRGB(25, 25, 25),
+	Section = Color3.fromRGB(30, 30, 30),
+	Element = Color3.fromRGB(35, 35, 35),
+	Hover = Color3.fromRGB(45, 45, 45),
+	Text = Color3.fromRGB(240, 240, 240),
+	TextDark = Color3.fromRGB(150, 150, 150),
+	Accent = Color3.fromRGB(255, 60, 60), -- Neon Red
+	Outline = Color3.fromRGB(50, 50, 50)
 }
 
 --// LIBRARY ENGINE //--
@@ -114,8 +114,8 @@ function Library:PlayIntro(MainFrame: Frame)
 	MainFrame.Visible = true
 	MainFrame.Size = UDim2.new(0, 0, 0, 0)
 	MainFrame.BackgroundTransparency = 1
-	-- UPDATED: Tween to 0.1 transparency instead of 0 for glass look
-	Utility:Tween(MainFrame, {Size = UDim2.new(0, 650, 0, 420), BackgroundTransparency = 0.1}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+	-- UPDATED: Tween to 0.9 transparency instead of 0
+	Utility:Tween(MainFrame, {Size = UDim2.new(0, 650, 0, 420), BackgroundTransparency = 0.9}, 0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 	task.wait(0.5)
 	IntroFrame:Destroy()
 end
@@ -135,8 +135,7 @@ function Library:Notify(title: string, text: string, duration: number)
 		local Inner = Instance.new("Frame", Notif)
 		Inner.Size = UDim2.new(1, 0, 0, 60)
 		Inner.Position = UDim2.new(1, 50, 0, 0)
-		Inner.BackgroundColor3 = Color3.fromRGB(10,10,10)
-		Inner.BackgroundTransparency = 0.1
+		Inner.BackgroundColor3 = THEME.Section
 		Inner.BorderSizePixel = 0
 		
 		local NCorner = Instance.new("UICorner", Inner)
@@ -214,7 +213,8 @@ function Library:CreateWindow(Config: {Name: string})
 	MainFrame.Size = UDim2.new(0, 650, 0, 420)
 	MainFrame.Position = UDim2.new(0.5, -325, 0.5, -210)
 	MainFrame.BackgroundColor3 = THEME.Main
-	MainFrame.BackgroundTransparency = 0.1 -- Dark Glass
+	-- UPDATED: Set default transparency to 0.9
+	MainFrame.BackgroundTransparency = 0.9
 	MainFrame.ClipsDescendants = true
 	MainFrame.Visible = false
 	MainFrame.Parent = ScreenGui
@@ -238,39 +238,30 @@ function Library:CreateWindow(Config: {Name: string})
 	UserInputService.InputChanged:Connect(function(input) if input == DragInput and Dragging then UpdateDrag(input) end end)
 	
 	local MainCorner = Instance.new("UICorner", MainFrame)
-	MainCorner.CornerRadius = UDim.new(0, 10)
+	MainCorner.CornerRadius = UDim.new(0, 8)
 	local MainStroke = Instance.new("UIStroke", MainFrame)
 	MainStroke.Color = THEME.Outline
-	MainStroke.Thickness = 1
+	MainStroke.Thickness = 1.5
 	
 	local Sidebar = Instance.new("Frame")
 	Sidebar.Size = UDim2.new(0, 170, 1, 0)
 	Sidebar.BackgroundColor3 = THEME.Sidebar
-	Sidebar.BackgroundTransparency = 0.5 -- Semi-transparent sidebar
 	Sidebar.Parent = MainFrame
-	
 	local SideCorner = Instance.new("UICorner", Sidebar)
-	SideCorner.CornerRadius = UDim.new(0, 10)
-	
-	-- Fix corner clipping for sidebar
+	SideCorner.CornerRadius = UDim.new(0, 8)
 	local SideFix = Instance.new("Frame", Sidebar)
 	SideFix.Size = UDim2.new(0, 10, 1, 0)
 	SideFix.Position = UDim2.new(1, -10, 0, 0)
 	SideFix.BackgroundColor3 = THEME.Sidebar
-	SideFix.BackgroundTransparency = 1
 	SideFix.BorderSizePixel = 0
-	
-	local SideDivider = Instance.new("Frame", Sidebar)
-	SideDivider.Size = UDim2.new(0, 1, 1, 0)
-	SideDivider.Position = UDim2.new(1, 0, 0, 0)
-	SideDivider.BackgroundColor3 = THEME.Outline
-	SideDivider.BorderSizePixel = 0
-	SideDivider.BackgroundTransparency = 0.5
+	local SideStroke = Instance.new("UIStroke", Sidebar)
+	SideStroke.Color = THEME.Outline
+	SideStroke.Thickness = 1
 	
 	local Title = Instance.new("TextLabel")
 	Title.Text = Config.Name
 	Title.Font = Enum.Font.GothamBold
-	Title.TextSize = 24
+	Title.TextSize = 22
 	Title.TextColor3 = THEME.Accent
 	Title.Size = UDim2.new(1, -20, 0, 60)
 	Title.Position = UDim2.new(0, 15, 0, 0)
@@ -339,7 +330,7 @@ function Library:CreateWindow(Config: {Name: string})
 		local ScrollContainer = Instance.new("ScrollingFrame", Page)
 		ScrollContainer.Size = UDim2.new(1, 0, 1, 0)
 		ScrollContainer.BackgroundTransparency = 1
-		ScrollContainer.ScrollBarThickness = 2
+		ScrollContainer.ScrollBarThickness = 3
 		ScrollContainer.ScrollBarImageColor3 = THEME.Accent
 		ScrollContainer.BorderSizePixel = 0
 		local PageLayout = Instance.new("UIListLayout", ScrollContainer)
@@ -354,7 +345,7 @@ function Library:CreateWindow(Config: {Name: string})
 		TabBtn.MouseEnter:Connect(function()
 			if Library.ActiveTab ~= TabBtn then
 				Utility:Tween(TabLabel, {TextColor3 = THEME.Text})
-				Utility:Tween(TabBtn, {BackgroundTransparency = 0.9, BackgroundColor3 = THEME.Text})
+				Utility:Tween(TabBtn, {BackgroundTransparency = 0.8, BackgroundColor3 = THEME.Text})
 			end
 		end)
 		TabBtn.MouseLeave:Connect(function()
@@ -378,7 +369,7 @@ function Library:CreateWindow(Config: {Name: string})
 				end
 			end
 			Library.ActiveTab = TabBtn
-			Utility:Tween(TabBtn, {BackgroundTransparency = 0.85, BackgroundColor3 = THEME.Text})
+			Utility:Tween(TabBtn, {BackgroundTransparency = 0, BackgroundColor3 = Color3.fromRGB(35,35,35)})
 			Utility:Tween(TabLabel, {TextColor3 = THEME.Accent})
 			Utility:Tween(Indicator, {Size = UDim2.new(0, 4, 0.6, 0)})
 			Page.Visible = true
@@ -388,7 +379,7 @@ function Library:CreateWindow(Config: {Name: string})
 		end)
 		if #Pages:GetChildren() == 1 then
 			Library.ActiveTab = TabBtn
-			Utility:Tween(TabBtn, {BackgroundTransparency = 0.85, BackgroundColor3 = THEME.Text})
+			Utility:Tween(TabBtn, {BackgroundTransparency = 0, BackgroundColor3 = Color3.fromRGB(35,35,35)})
 			Utility:Tween(TabLabel, {TextColor3 = THEME.Accent})
 			Utility:Tween(Indicator, {Size = UDim2.new(0, 4, 0.6, 0)})
 			Page.Visible = true
@@ -399,10 +390,13 @@ function Library:CreateWindow(Config: {Name: string})
 			local SectionObj = {}
 			local SectionFrame = Instance.new("Frame", ScrollContainer)
 			SectionFrame.BackgroundColor3 = THEME.Section
-			SectionFrame.BackgroundTransparency = 1
 			SectionFrame.Size = UDim2.new(1, 0, 0, 0)
 			SectionFrame.AutomaticSize = Enum.AutomaticSize.Y
-			
+			local SecCorner = Instance.new("UICorner", SectionFrame)
+			SecCorner.CornerRadius = UDim.new(0, 6)
+			local SecStroke = Instance.new("UIStroke", SectionFrame)
+			SecStroke.Color = THEME.Outline
+			SecStroke.Thickness = 1
 			local SecTitle = Instance.new("TextLabel", SectionFrame)
 			SecTitle.Text = title
 			SecTitle.Font = Enum.Font.GothamBold
@@ -412,7 +406,6 @@ function Library:CreateWindow(Config: {Name: string})
 			SecTitle.Position = UDim2.new(0, 10, 0, 0)
 			SecTitle.BackgroundTransparency = 1
 			SecTitle.TextXAlignment = Enum.TextXAlignment.Left
-			
 			local Container = Instance.new("Frame", SectionFrame)
 			Container.Size = UDim2.new(1, -20, 0, 0)
 			Container.Position = UDim2.new(0, 10, 0, 30)
@@ -428,31 +421,22 @@ function Library:CreateWindow(Config: {Name: string})
 				local Btn = Instance.new("TextButton", Container)
 				Btn.Size = UDim2.new(1, 0, 0, 32)
 				Btn.BackgroundColor3 = THEME.Element
-				Btn.BackgroundTransparency = 0.8 -- Glassy
 				Btn.Text = text
 				Btn.TextColor3 = THEME.Text
 				Btn.Font = Enum.Font.Gotham
 				Btn.TextSize = 14
 				Btn.AutoButtonColor = false
 				local BtnC = Instance.new("UICorner", Btn)
-				BtnC.CornerRadius = UDim.new(0, 6)
+				BtnC.CornerRadius = UDim.new(0, 4)
 				local BtnS = Instance.new("UIStroke", Btn)
 				BtnS.Color = THEME.Outline
 				BtnS.Thickness = 1
-				BtnS.Transparency = 0.5
-				
-				Btn.MouseEnter:Connect(function() 
-					Utility:Tween(Btn, {BackgroundTransparency = 0.6}) 
-					Utility:Tween(BtnS, {Transparency = 0})
-				end)
-				Btn.MouseLeave:Connect(function() 
-					Utility:Tween(Btn, {BackgroundTransparency = 0.8}) 
-					Utility:Tween(BtnS, {Transparency = 0.5})
-				end)
+				Btn.MouseEnter:Connect(function() Utility:Tween(Btn, {BackgroundColor3 = THEME.Hover}) end)
+				Btn.MouseLeave:Connect(function() Utility:Tween(Btn, {BackgroundColor3 = THEME.Element}) end)
 				Btn.MouseButton1Click:Connect(function()
-					Utility:Tween(Btn, {BackgroundColor3 = THEME.Accent, BackgroundTransparency = 0.4}, 0.1)
+					Utility:Tween(Btn, {BackgroundColor3 = THEME.Accent}, 0.1)
 					task.wait(0.1)
-					Utility:Tween(Btn, {BackgroundColor3 = THEME.Element, BackgroundTransparency = 0.6}, 0.2)
+					Utility:Tween(Btn, {BackgroundColor3 = THEME.Hover}, 0.2)
 					callback()
 				end)
 			end
@@ -461,16 +445,13 @@ function Library:CreateWindow(Config: {Name: string})
 				local TogBtn = Instance.new("TextButton", Container)
 				TogBtn.Size = UDim2.new(1, 0, 0, 32)
 				TogBtn.BackgroundColor3 = THEME.Element
-				TogBtn.BackgroundTransparency = 0.8
 				TogBtn.Text = ""
 				TogBtn.AutoButtonColor = false
 				local TogC = Instance.new("UICorner", TogBtn)
-				TogC.CornerRadius = UDim.new(0, 6)
+				TogC.CornerRadius = UDim.new(0, 4)
 				local TogS = Instance.new("UIStroke", TogBtn)
 				TogS.Color = THEME.Outline
 				TogS.Thickness = 1
-				TogS.Transparency = 0.5
-				
 				local Label = Instance.new("TextLabel", TogBtn)
 				Label.Text = text
 				Label.Size = UDim2.new(1, -40, 1, 0)
@@ -480,29 +461,20 @@ function Library:CreateWindow(Config: {Name: string})
 				Label.Font = Enum.Font.Gotham
 				Label.TextSize = 14
 				Label.TextXAlignment = Enum.TextXAlignment.Left
-				
 				local Box = Instance.new("Frame", TogBtn)
 				Box.Size = UDim2.new(0, 20, 0, 20)
 				Box.Position = UDim2.new(1, -30, 0.5, -10)
-				Box.BackgroundColor3 = Toggled and THEME.Accent or Color3.fromRGB(0,0,0)
-				Box.BackgroundTransparency = Toggled and 0 or 0.5
+				Box.BackgroundColor3 = Toggled and THEME.Accent or Color3.fromRGB(25,25,25)
 				local BoxC = Instance.new("UICorner", Box)
 				BoxC.CornerRadius = UDim.new(0, 4)
 				local BoxS = Instance.new("UIStroke", Box)
 				BoxS.Color = THEME.Outline
 				BoxS.Thickness = 1
-				
-				TogBtn.MouseEnter:Connect(function() 
-					Utility:Tween(TogBtn, {BackgroundTransparency = 0.6}) 
-					Utility:Tween(TogS, {Transparency = 0})
-				end)
-				TogBtn.MouseLeave:Connect(function() 
-					Utility:Tween(TogBtn, {BackgroundTransparency = 0.8}) 
-					Utility:Tween(TogS, {Transparency = 0.5})
-				end)
+				TogBtn.MouseEnter:Connect(function() Utility:Tween(TogBtn, {BackgroundColor3 = THEME.Hover}) end)
+				TogBtn.MouseLeave:Connect(function() Utility:Tween(TogBtn, {BackgroundColor3 = THEME.Element}) end)
 				TogBtn.MouseButton1Click:Connect(function()
 					Toggled = not Toggled
-					Utility:Tween(Box, {BackgroundColor3 = Toggled and THEME.Accent or Color3.fromRGB(0,0,0), BackgroundTransparency = Toggled and 0 or 0.5})
+					Utility:Tween(Box, {BackgroundColor3 = Toggled and THEME.Accent or Color3.fromRGB(25,25,25)})
 					callback(Toggled)
 				end)
 			end
@@ -512,14 +484,11 @@ function Library:CreateWindow(Config: {Name: string})
 				local SliderFrame = Instance.new("Frame", Container)
 				SliderFrame.Size = UDim2.new(1, 0, 0, 45)
 				SliderFrame.BackgroundColor3 = THEME.Element
-				SliderFrame.BackgroundTransparency = 0.8
 				local SlC = Instance.new("UICorner", SliderFrame)
-				SlC.CornerRadius = UDim.new(0, 6)
+				SlC.CornerRadius = UDim.new(0, 4)
 				local SlS = Instance.new("UIStroke", SliderFrame)
 				SlS.Color = THEME.Outline
 				SlS.Thickness = 1
-				SlS.Transparency = 0.5
-				
 				local Label = Instance.new("TextLabel", SliderFrame)
 				Label.Text = text
 				Label.Size = UDim2.new(1, -10, 0, 20)
@@ -529,7 +498,6 @@ function Library:CreateWindow(Config: {Name: string})
 				Label.Font = Enum.Font.Gotham
 				Label.TextSize = 14
 				Label.TextXAlignment = Enum.TextXAlignment.Left
-				
 				local ValLabel = Instance.new("TextLabel", SliderFrame)
 				ValLabel.Text = tostring(Value)
 				ValLabel.Size = UDim2.new(0, 40, 0, 20)
@@ -538,26 +506,19 @@ function Library:CreateWindow(Config: {Name: string})
 				ValLabel.TextColor3 = THEME.TextDark
 				ValLabel.Font = Enum.Font.Gotham
 				ValLabel.TextSize = 14
-				
 				local Bar = Instance.new("TextButton", SliderFrame)
 				Bar.Text = ""
 				Bar.AutoButtonColor = false
 				Bar.Size = UDim2.new(1, -20, 0, 6)
 				Bar.Position = UDim2.new(0, 10, 0, 30)
-				Bar.BackgroundColor3 = Color3.fromRGB(0,0,0)
-				Bar.BackgroundTransparency = 0.5
+				Bar.BackgroundColor3 = Color3.fromRGB(25,25,25)
 				local BarC = Instance.new("UICorner", Bar)
 				BarC.CornerRadius = UDim.new(1, 0)
-				local BarS = Instance.new("UIStroke", Bar)
-				BarS.Color = THEME.Outline
-				BarS.Thickness = 1
-				
 				local Fill = Instance.new("Frame", Bar)
 				Fill.Size = UDim2.new((Value - min) / (max - min), 0, 1, 0)
 				Fill.BackgroundColor3 = THEME.Accent
 				local FillC = Instance.new("UICorner", Fill)
 				FillC.CornerRadius = UDim.new(1, 0)
-				
 				local function Update(input)
 					local percent = math.clamp((input.Position.X - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
 					local newVal = math.floor(min + (max - min) * percent)
@@ -583,14 +544,11 @@ function Library:CreateWindow(Config: {Name: string})
 				local BoxFrame = Instance.new("Frame", Container)
 				BoxFrame.Size = UDim2.new(1, 0, 0, 35)
 				BoxFrame.BackgroundColor3 = THEME.Element
-				BoxFrame.BackgroundTransparency = 0.8
 				local BoxC = Instance.new("UICorner", BoxFrame)
-				BoxC.CornerRadius = UDim.new(0, 6)
+				BoxC.CornerRadius = UDim.new(0, 4)
 				local BoxS = Instance.new("UIStroke", BoxFrame)
 				BoxS.Color = THEME.Outline
 				BoxS.Thickness = 1
-				BoxS.Transparency = 0.5
-				
 				local Label = Instance.new("TextLabel", BoxFrame)
 				Label.Text = text
 				Label.Size = UDim2.new(0.4, 0, 1, 0)
@@ -600,23 +558,17 @@ function Library:CreateWindow(Config: {Name: string})
 				Label.Font = Enum.Font.Gotham
 				Label.TextSize = 14
 				Label.TextXAlignment = Enum.TextXAlignment.Left
-				
 				local Input = Instance.new("TextBox", BoxFrame)
 				Input.Text = ""
 				Input.PlaceholderText = placeholder
 				Input.Size = UDim2.new(0.5, -10, 0.7, 0)
 				Input.Position = UDim2.new(0.5, 0, 0.15, 0)
-				Input.BackgroundColor3 = Color3.fromRGB(0,0,0)
-				Input.BackgroundTransparency = 0.5
+				Input.BackgroundColor3 = Color3.fromRGB(25,25,25)
 				Input.TextColor3 = THEME.Text
 				Input.Font = Enum.Font.Gotham
 				Input.TextSize = 14
 				local InC = Instance.new("UICorner", Input)
 				InC.CornerRadius = UDim.new(0, 4)
-				local InS = Instance.new("UIStroke", Input)
-				InS.Color = THEME.Outline
-				InS.Thickness = 1
-				
 				Input.FocusLost:Connect(function(enter)
 					if enter then
 						callback(Input.Text)
@@ -629,16 +581,13 @@ function Library:CreateWindow(Config: {Name: string})
 				local KeyBtn = Instance.new("TextButton", Container)
 				KeyBtn.Size = UDim2.new(1, 0, 0, 32)
 				KeyBtn.BackgroundColor3 = THEME.Element
-				KeyBtn.BackgroundTransparency = 0.8
 				KeyBtn.Text = ""
 				KeyBtn.AutoButtonColor = false
 				local KeyC = Instance.new("UICorner", KeyBtn)
-				KeyC.CornerRadius = UDim.new(0, 6)
+				KeyC.CornerRadius = UDim.new(0, 4)
 				local KeyS = Instance.new("UIStroke", KeyBtn)
 				KeyS.Color = THEME.Outline
 				KeyS.Thickness = 1
-				KeyS.Transparency = 0.5
-				
 				local Label = Instance.new("TextLabel", KeyBtn)
 				Label.Text = text
 				Label.Size = UDim2.new(1, -80, 1, 0)
@@ -648,22 +597,16 @@ function Library:CreateWindow(Config: {Name: string})
 				Label.Font = Enum.Font.Gotham
 				Label.TextSize = 14
 				Label.TextXAlignment = Enum.TextXAlignment.Left
-				
 				local BindLabel = Instance.new("TextLabel", KeyBtn)
 				BindLabel.Text = CurrentKey.Name
 				BindLabel.Size = UDim2.new(0, 60, 0, 20)
 				BindLabel.Position = UDim2.new(1, -70, 0.5, -10)
-				BindLabel.BackgroundColor3 = Color3.fromRGB(0,0,0)
-				BindLabel.BackgroundTransparency = 0.5
+				BindLabel.BackgroundColor3 = Color3.fromRGB(25,25,25)
 				BindLabel.TextColor3 = THEME.TextDark
 				BindLabel.Font = Enum.Font.GothamBold
 				BindLabel.TextSize = 12
 				local BindC = Instance.new("UICorner", BindLabel)
 				BindC.CornerRadius = UDim.new(0, 4)
-				local BindS = Instance.new("UIStroke", BindLabel)
-				BindS.Color = THEME.Outline
-				BindS.Thickness = 1
-				
 				KeyBtn.MouseButton1Click:Connect(function()
 					Binding = true
 					BindLabel.Text = "..."
@@ -688,12 +631,7 @@ function Library:CreateWindow(Config: {Name: string})
 				ParaFrame.Size = UDim2.new(1, 0, 0, 0)
 				ParaFrame.AutomaticSize = Enum.AutomaticSize.Y
 				local PC = Instance.new("UICorner", ParaFrame)
-				PC.CornerRadius = UDim.new(0, 6)
-				local PS = Instance.new("UIStroke", ParaFrame)
-				PS.Color = THEME.Outline
-				PS.Thickness = 1
-				PS.Transparency = 0.5
-				
+				PC.CornerRadius = UDim.new(0, 4)
 				local PTitle = Instance.new("TextLabel", ParaFrame)
 				PTitle.Text = title
 				PTitle.Font = Enum.Font.GothamBold
@@ -703,7 +641,6 @@ function Library:CreateWindow(Config: {Name: string})
 				PTitle.Position = UDim2.new(0, 5, 0, 5)
 				PTitle.BackgroundTransparency = 1
 				PTitle.TextXAlignment = Enum.TextXAlignment.Left
-				
 				local PContent = Instance.new("TextLabel", ParaFrame)
 				PContent.Text = content
 				PContent.Font = Enum.Font.Gotham
